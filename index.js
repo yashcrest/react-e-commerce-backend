@@ -45,5 +45,5 @@ app.post("/checkout", async (req, res) => {
     res.status(500).json({ error: "Error creating Stripe session" });
   }
 });
-
-module.exports = app;
+const port = process.env.PORT || 4000;
+app.listen(port, () => console.log(`Server running on ${port}`));
