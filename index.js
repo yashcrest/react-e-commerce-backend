@@ -23,12 +23,12 @@ app.post("/checkout", async (req, res) => {
     }));
 
     const success_url =
-      process.env.NODE_ENV === "production"
+      process.env.NODE_ENV === "Production"
         ? process.env.frontend_domain + "success"
         : "http://localhost:5173/success";
 
     const cancel_url =
-      process.env.NODE_ENV === "production"
+      process.env.NODE_ENV === "Production"
         ? process.env.frontend_domain + "failed"
         : "http://localhost:5173/failed";
 
