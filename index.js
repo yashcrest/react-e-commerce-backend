@@ -7,7 +7,9 @@ const bodyParser = require("body-parser");
 //initialize stripe
 const Stripe = require("stripe");
 
-const stripe = new Stripe(process.env.secret_key);
+const stripe = new Stripe(
+  "sk_test_51NxIMbIIas9tFQMRc0T9EYd6DS8Isn1XF5BctEHFqU9eSS7DtFmm9yt2wOtGdFmyqkYuRvrRRo6zcPOVpgKA7sKG009t3rbFH1"
+);
 //middleware
 app.use(express.static("public")); //this is recommended by stripe docs
 app.use(cors());
@@ -25,11 +27,11 @@ app.post("/checkout", async (req, res) => {
     const success_url =
       process.env.NODE_ENV === "Production"
         ? process.env.frontend_domain + "success"
-        : "http://localhost:5173/success";
+        : "https://react-e-commerce-kappa.vercel.app/success";
 
     const cancel_url =
       process.env.NODE_ENV === "Production"
-        ? process.env.frontend_domain + "failed"
+        ? "https://react-e-commerce-kappa.vercel.app/failed"
         : "http://localhost:5173/failed";
 
     const session = await stripe.checkout.sessions.create({
