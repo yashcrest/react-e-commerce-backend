@@ -24,21 +24,11 @@ app.post("/checkout", async (req, res) => {
       quantity: item.quantity,
     }));
 
-    const success_url =
-      process.env.NODE_ENV === "Production"
-        ? process.env.frontend_domain + "success"
-        : "https://react-e-commerce-kappa.vercel.app/success";
-
-    const cancel_url =
-      process.env.NODE_ENV === "Production"
-        ? "https://react-e-commerce-kappa.vercel.app/failed"
-        : "http://localhost:5173/failed";
-
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: "payment",
-      success_url: success_url,
-      cancel_url: cancel_url,
+      success_url: "https://react-e-commerce-kappa.vercel.app/success",
+      cancel_url: "https://react-e-commerce-kappa.vercel.app/failed",
     });
 
     res.json({ url: session.url });
