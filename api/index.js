@@ -10,16 +10,25 @@ const Stripe = require("stripe");
 const stripe = new Stripe(
   "sk_test_51NxIMbIIas9tFQMRc0T9EYd6DS8Isn1XF5BctEHFqU9eSS7DtFmm9yt2wOtGdFmyqkYuRvrRRo6zcPOVpgKA7sKG009t3rbFH1"
 );
+
 //middleware
 app.use(express.static("public")); //this is recommended by stripe docs
-app.use(cors());
+let allowedOrigins = ["https://ecommerce.yashshrestha.net"];
+if (process.env.NODE_ENV !== "production") {
+  allowedOrigins.push("http://localhost:5173");
+}
+
 app.use(
   cors({
-    origin: "https://ecommerce.yashshrestha.net/cart",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
   })
 );
-// ensumre that server handles "options" requets correctly.
-app.options("*", cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -34,8 +43,8 @@ app.post("/checkout", async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: "payment",
-      success_url: "https://ecommerce.yashshrestha.net/success",
-      cancel_url: "https://ecommerce.yashshrestha.net/failed",
+      success_url: "https://localhost:5173/success",
+      cancel_url: "https://localhost:5173/failed",
     });
 
     res.json({ url: session.url });
