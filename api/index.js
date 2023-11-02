@@ -15,7 +15,7 @@ app.use(express.static("public")); //this is recommended by stripe docs
 app.use(cors());
 app.use(
   cors({
-    origin: "https://ecommerce.yashshrestha.net",
+    origin: "https://ecommerce.yashshrestha.net/cart",
   })
 );
 // ensumre that server handles "options" requets correctly.
