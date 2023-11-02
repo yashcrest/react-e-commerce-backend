@@ -13,6 +13,13 @@ const stripe = new Stripe(
 //middleware
 app.use(express.static("public")); //this is recommended by stripe docs
 app.use(cors());
+app.use(
+  cors({
+    origin: "https://ecommerce.yashshrestha.net",
+  })
+);
+// ensumre that server handles "options" requets correctly.
+app.options("*", cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
