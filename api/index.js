@@ -27,8 +27,8 @@ app.post("/checkout", async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: "payment",
-      success_url: "https://react-e-commerce-kappa.vercel.app/success",
-      cancel_url: "https://react-e-commerce-kappa.vercel.app/failed",
+      success_url: "https://ecommerce.yashshrestha.net/success",
+      cancel_url: "https://ecommerce.yashshrestha.net/failed",
     });
 
     res.json({ url: session.url });
