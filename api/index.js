@@ -7,7 +7,7 @@ const app = express();
 // Use this to allow specific origin.
 app.use(
   cors({
-    origin: "https://ecommerce.yashshrestha.net",
+    origin: "https://ecommerce.yashshrestha.net/cart",
   })
 );
 
