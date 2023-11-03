@@ -16,8 +16,12 @@ const options = [
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
-// app.use(cors());
 app.use(options);
+
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`);
+  next();
+});
 
 const stripe = new Stripe(
   process.env.STRIPE_SECRET_KEY ||
