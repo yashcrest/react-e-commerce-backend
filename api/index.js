@@ -1,3 +1,17 @@
+const express = require("express");
+const cors = require("cors");
+
+const app = express();
+
+// use this to allow all origins.
+app.use(cors());
+
+app.use(
+  cors({
+    origin: "https://ecommerce.yashshrestha.net",
+  })
+);
+
 const allowCors = (fn) => async (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", true);
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -30,7 +44,7 @@ const handler = async (req, res) => {
       quantity: item.quantity,
     }));
 
-    const session = await stripe.chekout.sessions.create({
+    const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: "payment",
       success_url: "https://react-e-commerce-kappa.vercel.app/success",
