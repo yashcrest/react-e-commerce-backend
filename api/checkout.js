@@ -1,4 +1,20 @@
-const cors = require("cors");
+const allowCors = (fn) => async (req, res) => {
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+  );
+  if (req.method === "OPTIONS") {
+    res.status(200).end();
+    return;
+  }
+  return await fn(req, res);
+};
 
 const Stripe = require("stripe");
 const stripe = new Stripe(
@@ -6,42 +22,26 @@ const stripe = new Stripe(
     "sk_test_51NxIMbIIas9tFQMRc0T9EYd6DS8Isn1XF5BctEHFqU9eSS7DtFmm9yt2wOtGdFmyqkYuRvrRRo6zcPOVpgKA7sKG009t3rbFH1"
 );
 
-// Use cors middleware
-const corsHandler = cors({
-  origin: function (origin, callback) {
-    let allowedOrigins = ["https://ecommerce.yashshrestha.net"];
-    if (process.env.NODE_ENV !== "production") {
-      allowedOrigins.push("http://localhost:5173");
-    }
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-});
+const handler = async (req, res) => {
+  try {
+    const items = req.body.products;
+    let lineItems = items.map((item) => ({
+      price: item.id,
+      quantity: item.quantity,
+    }));
 
-module.exports = (req, res) => {
-  // Handle CORS
-  corsHandler(req, res, async () => {
-    try {
-      const items = req.body.products;
-      let lineItems = items.map((item) => ({
-        price: item.id,
-        quantity: item.quantity,
-      }));
+    const session = await stripe.chekout.sessions.create({
+      line_items: lineItems,
+      mode: "payment",
+      success_url: "https://react-e-commerce-kappa.vercel.app/success",
+      cancel_url: "https://react-e-commerce-kappa.vercel.app/failed",
+    });
 
-      const session = await stripe.checkout.sessions.create({
-        line_items: lineItems,
-        mode: "payment",
-        success_url: "https://localhost:5173/success",
-        cancel_url: "https://localhost:5173/failed",
-      });
-
-      res.json({ url: session.url });
-    } catch (error) {
-      console.error("Error creating Stripe session:", error);
-      res.status(500).json({ error: "Error creating Stripe session" });
-    }
-  });
+    res.json({ url: session.url });
+  } catch (error) {
+    console.error("Error creating string session: ", error);
+    res.status(500).json({ error: "Error creating stripe session" });
+  }
 };
+
+module.exports = allowCors(handler);
