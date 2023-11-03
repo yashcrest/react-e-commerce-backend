@@ -1,15 +1,7 @@
 const express = require("express");
-const cors = require("cors");
 const Stripe = require("stripe");
 
 const app = express();
-
-// Use this to allow specific origin.
-app.use(
-  cors({
-    origin: "https://react-e-commerce-kappa.vercel.app/",
-  })
-);
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
