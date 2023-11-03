@@ -1,10 +1,12 @@
 const express = require("express");
 const Stripe = require("stripe");
+const cors = require("cors");
 
 const app = express();
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
+app.use(cors());
 
 const stripe = new Stripe(
   process.env.STRIPE_SECRET_KEY ||
@@ -32,8 +34,6 @@ app.post("/api/checkout", async (req, res) => {
     res.status(500).json({ error: "Error creating stripe session" });
   }
 });
-
-// Here you can add additional endpoints if required
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
