@@ -24,7 +24,7 @@ const stripe = new Stripe(
     "sk_test_51NxIMbIIas9tFQMRc0T9EYd6DS8Isn1XF5BctEHFqU9eSS7DtFmm9yt2wOtGdFmyqkYuRvrRRo6zcPOVpgKA7sKG009t3rbFH1"
 );
 
-app.post("/api/checkout", async (req, res) => {
+app.post("/checkout", async (req, res) => {
   try {
     const items = req.body.products;
     let lineItems = items.map((item) => ({
