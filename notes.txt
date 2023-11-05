@@ -1,0 +1,2 @@
+Stack overflow solution:
+https://stackoverflow.com/questions/61217119/zeit-vercel-now-serverless-authenticated-requests-failing-because-of-cors

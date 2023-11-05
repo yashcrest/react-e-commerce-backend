@@ -43,6 +43,7 @@ app.post("/checkout", async (req, res) => {
   }
 });
 
+//test endpoint
 app.get("/test", async (req, res) => {
   res.json({
     hello: "world",
