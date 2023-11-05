@@ -7,9 +7,9 @@ const app = express();
 //cors config testing
 const options = [
   cors({
-    origin: "https://ecommerce.yashshrestha.net",
+    origin: "*",
     methods: "GET,POST,PUT,DELETE,OPTIONS",
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: "*",
     credentials: true,
   }),
 ];
