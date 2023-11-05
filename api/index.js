@@ -7,9 +7,9 @@ const app = express();
 //cors config testing
 const options = [
   cors({
-    origin: "*",
+    origin: "https://react-e-commerce-kappa.vercel.app/",
     methods: "GET,POST,PUT,DELETE,OPTIONS",
-    allowedHeaders: "*",
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   }),
 ];
@@ -23,7 +23,9 @@ app.use((req, res, next) => {
   next();
 });
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(
+  "sk_test_51NxIMbIIas9tFQMRc0T9EYd6DS8Isn1XF5BctEHFqU9eSS7DtFmm9yt2wOtGdFmyqkYuRvrRRo6zcPOVpgKA7sKG009t3rbFH1"
+);
 
 app.post("/checkout", async (req, res) => {
   try {
@@ -45,6 +47,12 @@ app.post("/checkout", async (req, res) => {
     console.error("Error creating stripe session: ", error);
     res.status(500).json({ error: "Error creating stripe session" });
   }
+});
+
+app.get("/test", async (req, res) => {
+  res.json({
+    hello: "world",
+  });
 });
 
 const PORT = process.env.PORT || 3000;
