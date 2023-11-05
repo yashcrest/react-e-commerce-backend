@@ -2,7 +2,7 @@ const express = require("express");
 const Stripe = require("stripe");
 const microCors = require("micro-cors");
 // const cors = require("cors");
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 
 const app = express();
 const cors = microCors();
