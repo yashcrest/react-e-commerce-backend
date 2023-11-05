@@ -15,7 +15,7 @@ const app = express();
 // ];
 
 // Middleware to parse JSON request bodies
-app.use(express.json());
+// app.use(express.json());
 // app.use(options);
 
 app.use((req, res, next) => {
