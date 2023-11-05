@@ -7,7 +7,7 @@ const app = express();
 //cors config testing
 const options = [
   cors({
-    origin: "https://react-e-commerce-kappa.vercel.app/",
+    origin: "https://ecommerce.yashshrestha.net",
     methods: "GET,POST,PUT,DELETE,OPTIONS",
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
