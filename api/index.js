@@ -23,10 +23,7 @@ app.use((req, res, next) => {
   next();
 });
 
-const stripe = new Stripe(
-  process.env.STRIPE_SECRET_KEY ||
-    "sk_test_51NxIMbIIas9tFQMRc0T9EYd6DS8Isn1XF5BctEHFqU9eSS7DtFmm9yt2wOtGdFmyqkYuRvrRRo6zcPOVpgKA7sKG009t3rbFH1"
-);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 app.post("/checkout", async (req, res) => {
   try {
