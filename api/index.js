@@ -1,6 +1,8 @@
 const express = require("express");
 const Stripe = require("stripe");
 const microCors = require("micro-cors");
+// const cors = require("cors");
+const bodyParser = require("body-parser");
 
 const app = express();
 const cors = microCors();
@@ -19,6 +21,10 @@ app.use((req, res, next) => {
 
   next();
 });
+
+//using cors
+// app.use(cors());
+// app.use(bodyParser.json());
 
 //Creating stripe checkout session
 app.post("/checkout", async (req, res) => {
