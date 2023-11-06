@@ -1,10 +1,11 @@
 const express = require("express");
 const Stripe = require("stripe");
 const microCors = require("micro-cors");
-const cors = require("cors");
+// const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
+app.use(bodyParser.json());
 // const cors = microCors();
 
 const stripe = new Stripe(
@@ -12,41 +13,40 @@ const stripe = new Stripe(
 );
 
 //micro-cors middleware
-// app.use((req, res, next) => {
-//   cors(req, res);
+app.use((req, res, next) => {
+  cors(req, res);
 
-//   if (req.method === "OPTIONS") {
-//     return res.status(200).send("ok");
-//   }
+  if (req.method === "OPTIONS") {
+    return res.status(200).send("ok");
+  }
 
-//   next();
-// });
+  next();
+});
 
 
 // CORS middleware setup
 // Configure CORS to allow requests from your front-end domain
-const corsOptions = {
-  origin: "https://react-e-commerce-kappa.vercel.app"
-, // Your front-end origin
-  credentials: true,
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  allowedHeaders: [
-    "X-CSRF-Token",
-    "X-Requested-With",
-    "Accept",
-    "Accept-Version",
-    "Content-Length",
-    "Content-MD5",
-    "Content-Type",
-    "Date",
-    "X-Api-Version"
-  ],
-};
+// const corsOptions = {
+//   origin: "https://react-e-commerce-kappa.vercel.app"
+// , // Your front-end origin
+//   credentials: true,
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   allowedHeaders: [
+//     "X-CSRF-Token",
+//     "X-Requested-With",
+//     "Accept",
+//     "Accept-Version",
+//     "Content-Length",
+//     "Content-MD5",
+//     "Content-Type",
+//     "Date",
+//     "X-Api-Version"
+//   ],
+// };
 
 
 //using cors
-app.use(cors(corsOptions));
-app.use(bodyParser.json());
+// app.use(cors(corsOptions));
 
 //Creating stripe checkout session
 app.post("/checkout", async (req, res) => {
