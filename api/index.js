@@ -1,22 +1,30 @@
 const express = require("express");
 const Stripe = require("stripe");
 const microCors = require("micro-cors");
+// const cors = require("cors");
+// const bodyParser = require("body-parser");
 
 const app = express();
+const cors = microCors();
 
-// Configure CORS with the specific origin
-const cors = microCors({ origin: "https://react-e-commerce-kappa.vercel.app" });
+const stripe = new Stripe(
+  "sk_test_51NxIMbIIas9tFQMRc0T9EYd6DS8Isn1XF5BctEHFqU9eSS7DtFmm9yt2wOtGdFmyqkYuRvrRRo6zcPOVpgKA7sKG009t3rbFH1"
+);
 
-const stripe = new Stripe("sk_test_..."); // Use your actual Stripe secret key
+//micro-cors middleware
+app.use((req, res, next) => {
+  cors(req, res);
 
-// Apply CORS middleware to handle CORS
-app.use(cors);
+  if (req.method === "OPTIONS") {
+    return res.status(200).send("ok");
+  }
 
-// Handle preflight requests for all routes
-app.options("*", cors);
+  next();
+});
 
-// Parse JSON bodies (as sent by API clients)
-app.use(express.json());
+//using cors
+app.use(cors());
+app.use(bodyParser.json());
 
 //Creating stripe checkout session
 app.post("/checkout", async (req, res) => {
@@ -41,12 +49,13 @@ app.post("/checkout", async (req, res) => {
   }
 });
 
-// Test endpoint to check if the server is working
+//test endpoint
 app.get("/test", async (req, res) => {
-  res.json({ hello: "world" });
+  res.json({
+    hello: "world",
+  });
 });
 
-// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
