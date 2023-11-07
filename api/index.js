@@ -50,26 +50,29 @@ app.use((req, res, next) => {
 
 //Creating stripe checkout session
 app.post("/checkout", async (req, res) => {
-  try {
-    const items = req.body.products;
-    let lineItems = items.map((item) => ({
-      price: item.id,
-      quantity: item.quantity,
-    }));
+  // try {
+  //   const items = req.body.products;
+  //   let lineItems = items.map((item) => ({
+  //     price: item.id,
+  //     quantity: item.quantity,
+  //   }));
 
-    const session = await stripe.checkout.sessions.create({
-      line_items: lineItems,
-      mode: "payment",
-      success_url: "https://react-e-commerce-kappa.vercel.app/success",
-      cancel_url: "https://react-e-commerce-kappa.vercel.app/failed",
-    });
+  //   const session = await stripe.checkout.sessions.create({
+  //     line_items: lineItems,
+  //     mode: "payment",
+  //     success_url: "https://react-e-commerce-kappa.vercel.app/success",
+  //     cancel_url: "https://react-e-commerce-kappa.vercel.app/failed",
+  //   });
 
-    res.json({ url: session.url });
-  } catch (error) {
-    console.error("Error creating stripe session: ", error);
-    res.status(500).json({ error: "Error creating stripe session" });
-  }
+  //   res.json({ url: session.url });
+  // } catch (error) {
+  //   console.error("Error creating stripe session: ", error);
+  //   res.status(500).json({ error: "Error creating stripe session" });
+  // }  
+
+  res.status(200).send("Checkout endpoint hit");
 });
+
 
 //test endpoint
 app.get("/test", async (req, res) => {
