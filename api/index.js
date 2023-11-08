@@ -1,27 +1,27 @@
-const express = require("express");
-const Stripe = require("stripe");
-const microCors = require("micro-cors");
-// const cors = require("cors");
-const bodyParser = require("body-parser");
+// const express = require("express");
+// const Stripe = require("stripe");
+// const microCors = require("micro-cors");
+// // const cors = require("cors");
+// const bodyParser = require("body-parser");
 
-const app = express();
-app.use(bodyParser.json());
-// const cors = microCors();
+// const app = express();
+// app.use(bodyParser.json());
+// // const cors = microCors();
 
-const stripe = new Stripe(
-  "sk_test_51NxIMbIIas9tFQMRc0T9EYd6DS8Isn1XF5BctEHFqU9eSS7DtFmm9yt2wOtGdFmyqkYuRvrRRo6zcPOVpgKA7sKG009t3rbFH1"
-);
+// const stripe = new Stripe(
+//   "sk_test_51NxIMbIIas9tFQMRc0T9EYd6DS8Isn1XF5BctEHFqU9eSS7DtFmm9yt2wOtGdFmyqkYuRvrRRo6zcPOVpgKA7sKG009t3rbFH1"
+// );
 
-//micro-cors middleware
-app.use((req, res, next) => {
-  cors(req, res);
+// micro-cors middleware
+// app.use((req, res, next) => {
+//   cors(req, res);
 
-  if (req.method === "OPTIONS") {
-    return res.status(200).send("ok");
-  }
+//   if (req.method === "OPTIONS") {
+//     return res.status(200).send("ok");
+//   }
 
-  next();
-});
+//   next();
+// });
 
 
 // CORS middleware setup
@@ -49,39 +49,52 @@ app.use((req, res, next) => {
 // app.use(cors(corsOptions));
 
 //Creating stripe checkout session
-app.post("/checkout", async (req, res) => {
-  // try {
-  //   const items = req.body.products;
-  //   let lineItems = items.map((item) => ({
-  //     price: item.id,
-  //     quantity: item.quantity,
-  //   }));
+// app.post("/checkout", async (req, res) => {
+//   // try {
+//   //   const items = req.body.products;
+//   //   let lineItems = items.map((item) => ({
+//   //     price: item.id,
+//   //     quantity: item.quantity,
+//   //   }));
 
-  //   const session = await stripe.checkout.sessions.create({
-  //     line_items: lineItems,
-  //     mode: "payment",
-  //     success_url: "https://react-e-commerce-kappa.vercel.app/success",
-  //     cancel_url: "https://react-e-commerce-kappa.vercel.app/failed",
-  //   });
+//   //   const session = await stripe.checkout.sessions.create({
+//   //     line_items: lineItems,
+//   //     mode: "payment",
+//   //     success_url: "https://react-e-commerce-kappa.vercel.app/success",
+//   //     cancel_url: "https://react-e-commerce-kappa.vercel.app/failed",
+//   //   });
 
-  //   res.json({ url: session.url });
-  // } catch (error) {
-  //   console.error("Error creating stripe session: ", error);
-  //   res.status(500).json({ error: "Error creating stripe session" });
-  // }  
-
-  res.status(200).send("Checkout endpoint hit");
-});
+//   //   res.json({ url: session.url });
+//   // } catch (error) {
+//   //   console.error("Error creating stripe session: ", error);
+//   //   res.status(500).json({ error: "Error creating stripe session" });
+//   // }  
+// });
 
 
 //test endpoint
-app.get("/test", async (req, res) => {
-  res.json({
-    hello: "world",
-  });
-});
+// app.get("/test", async (req, res) => {
+//   res.json({
+//     hello: "world",
+//   });
+// });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// const PORT = process.env.PORT || 3000;
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
+
+
+const express = require('express');
+const app = express();
+const PORT = "3000";
+ 
+// Without middleware
+app.get('/', function (req, res) {
+    res.json({ user: 'World' });
+});
+ 
+app.listen(PORT, function (err) {
+    if (err) console.log(err);
+    console.log("Server listening on PORT", PORT);
 });
