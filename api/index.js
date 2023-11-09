@@ -23,29 +23,6 @@ app.use((req, res, next) => {
 });
 
 
-// CORS middleware setup
-// Configure CORS to allow requests from your front-end domain
-// const corsOptions = {
-//   origin: "https://react-e-commerce-kappa.vercel.app"
-// , // Your front-end origin
-//   credentials: true,
-//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//   allowedHeaders: [
-//     "X-CSRF-Token",
-//     "X-Requested-With",
-//     "Accept",
-//     "Accept-Version",
-//     "Content-Length",
-//     "Content-MD5",
-//     "Content-Type",
-//     "Date",
-//     "X-Api-Version"
-//   ],
-// };
-
-
-//using cors
-// app.use(cors(corsOptions));
 
 //Creating stripe checkout session
 app.post("/checkout", async (req, res) => {
@@ -70,13 +47,6 @@ app.post("/checkout", async (req, res) => {
   }  
 });
 
-
-//test endpoint
-app.get("/test", async (req, res) => {
-  res.json({
-    hello: "world",
-  });
-});
 
 // const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
