@@ -1,21 +1,19 @@
 const express = require("express");
-const Stripe = require("stripe");
-const bodyParser = require("body-parser");
-
 const app = express();
+require("dotenv").config();
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const bodyParser = require("body-parser");
+app.use(express.static("public"));
+
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const stripe = new Stripe(
-  "sk_test_51NxIMbIIas9tFQMRc0T9EYd6DS8Isn1XF5BctEHFqU9eSS7DtFmm9yt2wOtGdFmyqkYuRvrRRo6zcPOVpgKA7sKG009t3rbFH1"
-);
+const port = process.env.PORT || 4000;
 
 // CORS middleware wrapper
 const allowCors = (fn) => async (req, res) => {
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://react-e-commerce-kappa.vercel.app/cart"
-  );
+  res.setHeader("Access-Control-Allow-Origin", process.env.FrontEnd_Domain);
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET,OPTIONS,PATCH,DELETE,POST,PUT"
@@ -43,11 +41,11 @@ const createCheckoutSession = async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: "payment",
-      success_url: "https://react-e-commerce-kappa.vercel.app/success",
-      cancel_url: "https://react-e-commerce-kappa.vercel.app/failed",
+      success_url: `${process.env.FrontEnd_Domain}/success`,
+      cancel_url: `${process.env.FrontEnd_Domain}/failed`,
     });
 
-    res.json({ url: session.url });
+    res.send(JSON.stringify({ url: session.url }));
   } catch (error) {
     console.error("Error creating stripe session: ", error);
     res.status(500).json({ error: "Error creating stripe session" });
@@ -56,5 +54,6 @@ const createCheckoutSession = async (req, res) => {
 
 //Creating stripe checkout session
 app.post("/checkout", allowCors(createCheckoutSession));
+app.listen(port, () => console.log(`Server running port ${port}`));
 
 module.exports = app;
