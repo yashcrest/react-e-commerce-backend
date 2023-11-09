@@ -14,7 +14,7 @@ const allowCors = (fn) => async (req, res) => {
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader(
     "Access-Control-Allow-Origin",
-    "https://react-e-commerce-kappa.vercel.app"
+    "https://react-e-commerce-kappa.vercel.app/cart"
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
