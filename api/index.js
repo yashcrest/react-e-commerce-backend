@@ -54,6 +54,6 @@ const createCheckoutSession = async (req, res) => {
 
 //Creating stripe checkout session
 app.post("/checkout", allowCors(createCheckoutSession));
-app.listen(port, () => console.log(`Server running port ${port}`));
+// app.listen(port, () => console.log(`Server running port ${port}`));
 
 module.exports = app;
