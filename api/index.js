@@ -1,28 +1,28 @@
 const express = require("express");
 const Stripe = require("stripe");
-const microCors = require("micro-cors");
 const bodyParser = require("body-parser");
+const cors = require('cors')
 
-const cors = microCors();
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 const stripe = new Stripe(
   "sk_test_51NxIMbIIas9tFQMRc0T9EYd6DS8Isn1XF5BctEHFqU9eSS7DtFmm9yt2wOtGdFmyqkYuRvrRRo6zcPOVpgKA7sKG009t3rbFH1"
 );
 
-// micro-cors middleware
-app.use((req, res, next) => {
-  cors(req, res);
 
-  if (req.method === "OPTIONS") {
-    return res.status(200).send("ok");
-  }
+//Preflight request handler
+const handePreflightRequest = (req, res, next) => {
+    if(req.method === 'OPTIONS') {
+        res.status(200).send('ok');
+    } else {
+        next();
+    }
+}
 
-  next();
-});
-
-
+//use preflight request handler as application-levle middleware
+app.use(handePreflightRequest);
 
 //Creating stripe checkout session
 app.post("/checkout", async (req, res) => {
