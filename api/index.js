@@ -5,7 +5,6 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const bodyParser = require("body-parser");
 app.use(express.static("public"));
 
-app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
