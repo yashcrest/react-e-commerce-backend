@@ -34,8 +34,8 @@ const createCheckoutSession = async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: "payment",
-      success_url: `${process.env.FrontEnd_Domain}/success`,
-      cancel_url: `${process.env.FrontEnd_Domain}/failed`,
+      success_url: 'https://ecommerce.yashshrestha.net/success',
+      cancel_url: 'https://ecommerce.yashshrestha.net/failed',
     });
 
     res.send(JSON.stringify({ url: session.url }));
