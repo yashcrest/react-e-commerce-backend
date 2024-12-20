@@ -2,22 +2,12 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 require("dotenv").config();
+const app = express();
 const stripe = require("stripe")(
   "sk_test_51NxIMbIIas9tFQMRc0T9EYd6DS8Isn1XF5BctEHFqU9eSS7DtFmm9yt2wOtGdFmyqkYuRvrRRo6zcPOVpgKA7sKG009t3rbFH1"
 );
 
-const app = express();
-
-// CORS middleware wrapper
-// const corsOptions = {
-//   origin: "http://localhost:5173",
-//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//   credentials: true,
-//   optionsSuccessStatus: 204,
-// };
-
 //Middleware
-// app.use(cors(corsOptions));
 app.use(cors());
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,7 +16,13 @@ app.use(bodyParser.json());
 // Stripe checkout session function
 const createCheckoutSession = async (req, res) => {
   try {
+    // Log the entire request body
+    console.log("Request Body:", req.body);
+
+
+    // Extract and log the products key from the req body
     const items = req.body.products;
+    console.log("Products Received: ", items);
     let lineItems = items.map((item) => ({
       price: item.id,
       quantity: item.quantity,
